@@ -1,0 +1,58 @@
+html, body, figure, figcaption, div, ul, li {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    text-align: center;
+    font-size: 60px;
+    background: #000;
+}
+
+div {
+  display: inline;
+}
+
+.survival-time {
+  padding-right: 100px;
+}
+
+.score {
+  padding-left: 100px;
+}
+
+figure {
+  display: block;
+  margin: 30px auto;
+  width: 720px;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  float: left;
+  display: block;
+  background: #000;
+  height: 60px;
+  width: 60px;
+}
+
+.group:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+li.occupied {
+  background-color: #0f0;
+}
+
+li.apple {
+  background-color: #f00;
+}
+
+.game-over:after {
+  content: "GAME OVER";
+  color: #f00;
+}
