@@ -5,8 +5,8 @@
     this.$el = $el;
     this.setupBoard();
     this.bindEvents();
-    this.render();
     this.survivalTime = 0;
+    this.render();
     this.intervalId = window.setInterval(function () {
       this.step();
     }.bind(this), 200);
@@ -17,8 +17,13 @@
     this.render();
     this.survivalTime += 0.2;
     if (this.board.snake.dead) {
-      this.$el.addClass("game-over");
+      var $hs = $("ol");
+      $hs.append($("<li class='game-over high-scores'>"
+        + this.board.snake.score + "</li>"));
+      this.sortScores();
+      $(".game-over").addClass("true");
       clearInterval(this.intervalId);
+      this.intervalId = null;
     }
   };
 
@@ -27,17 +32,26 @@
       var dir = SnakeGame.View.handleKeyEvent(event);
       if (["N", "W", "E", "S"].indexOf(dir) !== -1) {
         this.board.snake.turn(dir);
-      } else if (dir === "pause") {
+      } else if (dir === "pause" && this.intervalId !== null) {
         clearInterval(this.intervalId);
         this.intervalId = null;
-      } else if (dir === "resume" && this.intervalId === null) {
+      } else if (dir === "pause" && this.intervalId === null) {
         this.intervalId = window.setInterval(function () {
           this.step();
         }.bind(this), 200);
+      } else if (dir === "restart") {
+        $("figure :not(.high-scores)").detach();
+        $("figure *").removeClass("true");
+        this.board = new SnakeGame.Board();
+        this.setupBoard();
+        this.survivalTime = 0;
+        this.render();
+        if (this.intervalId === null) {
+          this.intervalId = window.setInterval(function () {
+            this.step();
+          }.bind(this), 200);
+        }
       }
-      // else if (dir === "restart") {
-      //   this.$el.empty();
-      // }
     }.bind(this));
   };
 
@@ -47,14 +61,36 @@
     this.$el.append("<div class='info'> P to pause/resume</div>");
     this.$el.append($("<pre class='score'></pre>"));
     for (var i = 0; i < this.board.dims[0]; i++) {
-      var $row = $("<ul class='group'></ul>").attr("data-row", i);
+      var $row = $("<ul class='row group'></ul>").attr("data-row", i);
       this.$el.append($row);
       for (var j = 0; j < this.board.dims[1]; j++) {
-        var $space = $("<li></li>").attr("data-row", i).attr("data-col", j);
+        var $space = $("<li class='space'></li>")
+                      .attr("data-row", i)
+                      .attr("data-col", j);
         $row.append($space);
       }
     }
+    this.$el.append("<div class='game-over'>N to restart </div>");
+    this.$el.append("<h1 class='game-over'>GAME OVER</h1>");
+    this.$el.append("<div class='game-over'> Scroll down for high scores</div>");
+    this.sortScores();
   };
+
+  View.prototype.sortScores = function () {
+    var scores = [];
+    if ($("ol").length) {
+      for (var i = 0; i < $("ol li").length; i++) {
+        scores.push(parseInt($("ol li")[i].textContent));
+      }
+      scores.sort().reverse();
+      $("ol").remove();
+    }
+    var $hs = $("<ol class='game-over high-scores'></ol>");
+    this.$el.append($hs);
+    for (var i = 0; i < scores.length; i++) {
+      $hs.append($("<li class='game-over high-scores'>" + scores[i] + "</li>"));
+    }
+  }
 
   View.handleKeyEvent = function (event) {
     var keyPressed = event.keyCode;
@@ -63,8 +99,7 @@
     if (keyPressed === 68) { return "E"; }
     if (keyPressed === 83) { return "S"; }
     if (keyPressed === 80) { return "pause"; }
-    if (keyPressed === 82) { return "resume"; }
-    if (keyPressed === 77) { return "restart"; }
+    if (keyPressed === 78) { return "restart"; }
     return null;
   };
 

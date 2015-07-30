@@ -1,10 +1,10 @@
-html, body, figure, figcaption, div, ul, li, pre, p {
+html, body, figure, figcaption, div, h1, ul, li, pre, p {
     margin: 0;
     padding: 0;
     border: 0;
     font-family: "Courier New", Courier, monospace;
     text-align: center;
-    font-size: 40px;
+    font-size: 30px;
     background: #000;
     color: #f00;
 }
@@ -16,7 +16,7 @@ figure {
   height: 600px;
 }
 
-.info {
+div {
   font-size: 24px;
   display: inline;
 }
@@ -26,22 +26,22 @@ h1 {
   font-size: 60px;
 }
 
-ul {
+.row {
   list-style: none;
   border-left: 1px solid #00f;
   border-right: 1px solid #00f;
   width: 100%;
 }
 
-ul:first-of-type {
+.row:first-of-type {
   border-top: 1px solid #00f;
 }
 
-ul:last-of-type {
+.row:last-of-type {
   border-bottom: 1px solid #00f;
 }
 
-li {
+.space {
   float: left;
   display: block;
   background: #000;
@@ -55,16 +55,35 @@ li {
   display: block;
 }
 
-li.occupied {
+.space.occupied {
   background-color: #0f0;
 }
 
-li.apple {
+.space.apple {
   background-color: #f00;
 }
 
-.game-over:after {
-  content: "GAME OVER";
+.game-over {
+  display: none;
+  font-size: 16px;
+}
+
+div.game-over.true, h1.game-over.true {
+  display: inline;
+}
+
+li.game-over.true, ol.game-over.true {
+  display: block;
+  font-size: 40px;
+}
+
+ol.game-over.true:before {
+  content: "HIGH SCORES";
+  font-size: 40px;
+  font-weight: bold;
+}
+
+h1.game-over {
   font-weight: bold;
   font-size: 60px;
 }
