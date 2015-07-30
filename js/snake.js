@@ -63,7 +63,7 @@
   };
 
   var Board = SnakeGame.Board = function () {
-    this.snake = new SnakeGame.Snake(new SnakeGame.Coord([5, 6]), this);
+    this.snake = new SnakeGame.Snake(new SnakeGame.Coord([8, 6]), this);
     this.grid = Board.grid([10, 12]);
     this.dims = [10, 12];
     this.seedApple();

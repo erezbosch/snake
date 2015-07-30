@@ -27,23 +27,25 @@
       var dir = SnakeGame.View.handleKeyEvent(event);
       if (["N", "W", "E", "S"].indexOf(dir) !== -1) {
         this.board.snake.turn(dir);
-      } else if (dir === "P") {
+      } else if (dir === "pause") {
         clearInterval(this.intervalId);
         this.intervalId = null;
-      } else if (dir === "R" && this.intervalId === null) {
+      } else if (dir === "resume" && this.intervalId === null) {
         this.intervalId = window.setInterval(function () {
           this.step();
         }.bind(this), 200);
       }
-      // else if (dir === "Reset") {
+      // else if (dir === "restart") {
       //   this.$el.empty();
       // }
     }.bind(this));
   };
 
   View.prototype.setupBoard = function () {
-    this.$el.append($("<div class='survival-time'></div>"));
-    this.$el.append($("<div class='score'></div>"));
+    this.$el.append("<div class='info'>W-A-S-D to move </div>");
+    this.$el.append("<h1>SNAKE</h1>");
+    this.$el.append("<div class='info'> P to pause/resume</div>");
+    this.$el.append($("<pre class='score'></pre>"));
     for (var i = 0; i < this.board.dims[0]; i++) {
       var $row = $("<ul class='group'></ul>").attr("data-row", i);
       this.$el.append($row);
@@ -60,16 +62,15 @@
     if (keyPressed === 65) { return "W"; }
     if (keyPressed === 68) { return "E"; }
     if (keyPressed === 83) { return "S"; }
-    if (keyPressed === 80) { return "P"; }
-    if (keyPressed === 82) { return "R"; }
-    if (keyPressed === 77) { return "Reset"; }
-
+    if (keyPressed === 80) { return "pause"; }
+    if (keyPressed === 82) { return "resume"; }
+    if (keyPressed === 77) { return "restart"; }
     return null;
   };
 
   View.prototype.render = function () {
-    $(".survival-time").text("Time: " + Math.floor(this.survivalTime));
-    $(".score").text("Score: " + this.board.snake.score);
+    $(".score").text("Time: " + Math.floor(this.survivalTime)
+      + "    Score: " + this.board.snake.score);
     for (var i = 0; i < this.board.dims[0]; i++) {
       for (var j = 0; j < this.board.dims[1]; j++) {
         var $space = $("li[data-row=" + i +

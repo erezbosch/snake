@@ -1,33 +1,44 @@
-html, body, figure, figcaption, div, ul, li {
+html, body, figure, figcaption, div, ul, li, pre, p {
     margin: 0;
     padding: 0;
     border: 0;
-    font: inherit;
+    font-family: "Courier New", Courier, monospace;
     text-align: center;
-    font-size: 60px;
+    font-size: 40px;
     background: #000;
-}
-
-div {
-  display: inline;
-}
-
-.survival-time {
-  padding-right: 100px;
-}
-
-.score {
-  padding-left: 100px;
+    color: #f00;
 }
 
 figure {
   display: block;
-  margin: 30px auto;
+  margin: 0 auto 0 auto;
   width: 720px;
+  height: 600px;
+}
+
+.info {
+  font-size: 24px;
+  display: inline;
+}
+
+h1 {
+  display: inline;
+  font-size: 60px;
 }
 
 ul {
   list-style: none;
+  border-left: 1px solid #00f;
+  border-right: 1px solid #00f;
+  width: 100%;
+}
+
+ul:first-of-type {
+  border-top: 1px solid #00f;
+}
+
+ul:last-of-type {
+  border-bottom: 1px solid #00f;
 }
 
 li {
@@ -54,5 +65,6 @@ li.apple {
 
 .game-over:after {
   content: "GAME OVER";
-  color: #f00;
+  font-weight: bold;
+  font-size: 60px;
 }
