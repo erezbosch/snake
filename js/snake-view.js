@@ -82,7 +82,9 @@
       for (var i = 0; i < $("ol li").length; i++) {
         scores.push(parseInt($("ol li")[i].textContent));
       }
-      scores.sort().reverse();
+      scores.sort(function (a, b) {
+        return b - a;
+      });
       $("ol").remove();
     }
     var $hs = $("<ol class='game-over high-scores'></ol>");
